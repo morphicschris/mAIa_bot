@@ -63,28 +63,26 @@
 
             thisConversation.AppendSystemMessage(initialPrompt);
 
-            var last8Messages = MessageContext.Messages
+            var lastMessages = MessageContext.Messages
                 .Where(e => e.ChannelID == channelId)
                 .Where(e => e.MessageType != "System")
                 .Where(e => !string.IsNullOrEmpty(e.PlainText))
                 .OrderByDescending(e => e.Timestamp)
-                .Take(8)
+                .Take(15)
                 .OrderBy(e => e.Timestamp);
 
-            var thisMessage = last8Messages.FirstOrDefault();
+            var thisMessage = lastMessages.FirstOrDefault();
 
             int tokenCount = GPT3Tokenizer.Encode(initialPrompt).Count;
             int i = 1;
 
             while (tokenCount < 2250 && thisMessage != null)
             {
-                var messageContent = !string.IsNullOrEmpty(thisMessage.Summary)
-                    ? "SUMMARY: " + thisMessage.Summary
-                    : thisMessage.PlainText;
+                var messageContent = thisMessage.PlainText;
 
                 var t = GPT3Tokenizer.Encode(messageContent).Count;
 
-                if (tokenCount + t <= 2250)
+                if (tokenCount + t <= 4250)
                 {
                     Regex rgx = new Regex("[^a-zA-Z0-9_-]+");
                     var username = !string.IsNullOrEmpty(thisMessage.DiscordUsername) ? rgx.Replace(thisMessage.DiscordUsername, string.Empty) : null;
@@ -99,7 +97,7 @@
                     tokenCount += t;
                 }
 
-                thisMessage = last8Messages.Skip(i).FirstOrDefault();
+                thisMessage = lastMessages.Skip(i).FirstOrDefault();
 
                 ++i;
             }
@@ -235,14 +233,14 @@ Once the glitch is over just do another short sequence of random characters and 
 
             var messageTokenCount = GPT3Tokenizer.Encode(message).Count;
 
-            if (messageTokenCount >= 2500)
+            if (messageTokenCount >= 4500)
             {
                 await channel.SendMessageAsync("Sorry, your message is too long for me to process. Please try and keep your messages to me a bit shorter.");
 
                 return null;
             }
 
-            if (CurrentTokenCount + messageTokenCount >= 6500)
+            if (CurrentTokenCount + messageTokenCount >= 8500)
             {
                 RefreshConversation(channel.Id);
             }
