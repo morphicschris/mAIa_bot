@@ -1,0 +1,489 @@
+﻿{
+  "client_id": "0d38e6aa096d4d048f79bc2dfd031931",
+  "prompt": {
+    "3": {
+      "inputs": {
+        "seed": {{seed}},
+        "steps": 25,
+        "cfg": 7,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 0.75,
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "6",
+          0
+        ],
+        "negative": [
+          "7",
+          0
+        ],
+        "latent_image": [
+          "5",
+          0
+        ]
+      },
+      "class_type": "KSampler"
+    },
+    "4": {
+      "inputs": {
+        "ckpt_name": "{{checkpoint}}"
+      },
+      "class_type": "CheckpointLoaderSimple"
+    },
+    "5": {
+      "inputs": {
+        "width": 512,
+        "height": 512,
+        "batch_size": 1
+      },
+      "class_type": "EmptyLatentImage"
+    },
+    "6": {
+      "inputs": {
+        "text": "{{prompt}}",
+        "clip": [
+          "4",
+          1
+        ]
+      },
+      "class_type": "CLIPTextEncode"
+    },
+    "7": {
+      "inputs": {
+        "text": "embedding:EasyNegative, embedding:badhandv4, (embedding:bad_prompt:0.6), nsfw, watermark",
+        "clip": [
+          "4",
+          1
+        ]
+      },
+      "class_type": "CLIPTextEncode"
+    },
+    "8": {
+      "inputs": {
+        "samples": [
+          "3",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      },
+      "class_type": "VAEDecode"
+    },
+    "35": {
+      "inputs": {
+        "filename_prefix": "mAIa\\{{jobnumber}}_",
+        "images": [
+          "8",
+          0
+        ]
+      },
+      "class_type": "SaveImage"
+    }
+  },
+  "extra_data": {
+    "extra_pnginfo": {
+      "workflow": {
+        "last_node_id": 35,
+        "last_link_id": 67,
+        "nodes": [
+          {
+            "id": 6,
+            "type": "CLIPTextEncode",
+            "pos": [
+              -347,
+              254
+            ],
+            "size": {
+              "0": 422.84503173828125,
+              "1": 164.31304931640625
+            },
+            "flags": {
+
+            },
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "clip",
+                "type": "CLIP",
+                "link": 55
+              }
+            ],
+            "outputs": [
+              {
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "links": [
+                  4
+                ],
+                "slot_index": 0
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "CLIPTextEncode"
+            },
+            "widgets_values": [
+              "{{prompt}}"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 7,
+            "type": "CLIPTextEncode",
+            "pos": [
+              -340,
+              463
+            ],
+            "size": {
+              "0": 425.27801513671875,
+              "1": 180.6060791015625
+            },
+            "flags": {
+
+            },
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "clip",
+                "type": "CLIP",
+                "link": 56
+              }
+            ],
+            "outputs": [
+              {
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "links": [
+                  6
+                ],
+                "slot_index": 0
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "CLIPTextEncode"
+            },
+            "widgets_values": [
+              "embedding:EasyNegative, embedding:badhandv4, (embedding:bad_prompt:0.6), nsfw, watermark"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 3,
+            "type": "KSampler",
+            "pos": [
+              150,
+              249
+            ],
+            "size": {
+              "0": 315,
+              "1": 262
+            },
+            "flags": {
+
+            },
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "model",
+                "type": "MODEL",
+                "link": 53
+              },
+              {
+                "name": "positive",
+                "type": "CONDITIONING",
+                "link": 4
+              },
+              {
+                "name": "negative",
+                "type": "CONDITIONING",
+                "link": 6
+              },
+              {
+                "name": "latent_image",
+                "type": "LATENT",
+                "link": 2
+              }
+            ],
+            "outputs": [
+              {
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  7
+                ],
+                "slot_index": 0
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "KSampler"
+            },
+            "widgets_values": [
+              {{seed}},
+              "fixed",
+              25,
+              7,
+              "dpmpp_2m",
+              "karras",
+              0.75
+            ]
+          },
+          {
+            "id": 4,
+            "type": "CheckpointLoaderSimple",
+            "pos": [
+              -764,
+              245
+            ],
+            "size": {
+              "0": 315,
+              "1": 98
+            },
+            "flags": {
+
+            },
+            "order": 0,
+            "mode": 0,
+            "outputs": [
+              {
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  53
+                ],
+                "slot_index": 0
+              },
+              {
+                "name": "CLIP",
+                "type": "CLIP",
+                "links": [
+                  55,
+                  56
+                ],
+                "slot_index": 1
+              },
+              {
+                "name": "VAE",
+                "type": "VAE",
+                "links": [
+                  8
+                ],
+                "slot_index": 2
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "CheckpointLoaderSimple"
+            },
+            "widgets_values": [
+              "{{checkpoint}}"
+            ],
+            "color": "#323",
+            "bgcolor": "#535"
+          },
+          {
+            "id": 8,
+            "type": "VAEDecode",
+            "pos": [
+              593,
+              269
+            ],
+            "size": {
+              "0": 210,
+              "1": 46
+            },
+            "flags": {
+
+            },
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "samples",
+                "type": "LATENT",
+                "link": 7
+              },
+              {
+                "name": "vae",
+                "type": "VAE",
+                "link": 8
+              }
+            ],
+            "outputs": [
+              {
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  67
+                ],
+                "slot_index": 0
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "VAEDecode"
+            }
+          },
+          {
+            "id": 5,
+            "type": "EmptyLatentImage",
+            "pos": [
+              -234,
+              708
+            ],
+            "size": {
+              "0": 315,
+              "1": 106
+            },
+            "flags": {
+
+            },
+            "order": 1,
+            "mode": 0,
+            "outputs": [
+              {
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  2
+                ],
+                "slot_index": 0
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "EmptyLatentImage"
+            },
+            "widgets_values": [
+              512,
+              512,
+              4
+            ]
+          },
+          {
+            "id": 35,
+            "type": "SaveImage",
+            "pos": [
+              892,
+              260
+            ],
+            "size": {
+              "0": 315,
+              "1": 250
+            },
+            "flags": {
+
+            },
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "images",
+                "type": "IMAGE",
+                "link": 67
+              }
+            ],
+            "properties": {
+
+            },
+            "widgets_values": [
+              "ComfyUI"
+            ],
+            "color": "#232",
+            "bgcolor": "#353"
+          }
+        ],
+        "links": [
+          [
+            2,
+            5,
+            0,
+            3,
+            3,
+            "LATENT"
+          ],
+          [
+            4,
+            6,
+            0,
+            3,
+            1,
+            "CONDITIONING"
+          ],
+          [
+            6,
+            7,
+            0,
+            3,
+            2,
+            "CONDITIONING"
+          ],
+          [
+            7,
+            3,
+            0,
+            8,
+            0,
+            "LATENT"
+          ],
+          [
+            8,
+            4,
+            2,
+            8,
+            1,
+            "VAE"
+          ],
+          [
+            53,
+            4,
+            0,
+            3,
+            0,
+            "MODEL"
+          ],
+          [
+            55,
+            4,
+            1,
+            6,
+            0,
+            "CLIP"
+          ],
+          [
+            56,
+            4,
+            1,
+            7,
+            0,
+            "CLIP"
+          ],
+          [
+            67,
+            8,
+            0,
+            35,
+            0,
+            "IMAGE"
+          ]
+        ],
+        "groups": [
+
+        ],
+        "config": {
+
+        },
+        "extra": {
+
+        },
+        "version": 0.4
+      }
+    }
+  }
+}

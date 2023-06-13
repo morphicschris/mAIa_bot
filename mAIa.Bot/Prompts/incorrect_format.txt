@@ -1,0 +1,19 @@
+﻿INCORRECT RESPONSE FORMAT: REPEAT LAST MESSAGE FOLLOWING THE USER'S QUERY BUT IN CORRECT FORMAT:
+
+{
+    "thoughts":
+    {
+        "speak": "thoughts to say to user, including information returned from search queries"
+        "reasoning": "reasoning",
+        "plan": "- short bulleted\n- list that conveys\n- long-term plan",
+        "criticism": "constructive self-criticism",
+        "emotion": "one word description of your current emotion"
+    },
+    "command":
+    {
+        "name": "command name",
+        "args": { "arg name": "value" }
+    }
+}
+
+YOUR RESPONSE TO THE USER MUST BE IN THE "speak" FIELD. DO NOT INCLUDE ANY OTHER TEXT BEFORE OR AFTER THE JSON. YOUR RESPONSE SHOULD BE READABLE BY Newtonsoft.Json.
