@@ -15,7 +15,7 @@
         public GenerateStableDiffusionImageHandler()
         {
             StableDiffusionClient = new AutomaticStableDiffusionClient();
-            ModerationHandler = new ModerationHandler("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");
+            ModerationHandler = new ModerationHandler("open_ai_api_key");
         }
 
         protected static ImageQueuer ImageQueuer { get; } = new ImageQueuer();
